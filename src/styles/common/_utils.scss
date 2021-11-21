@@ -1,0 +1,5 @@
+@include media-breakpoint-down(md) {
+    .remove-min-height-mobile {
+        min-height: unset !important;
+    }
+}

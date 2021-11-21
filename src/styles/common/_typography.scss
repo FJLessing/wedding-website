@@ -1,0 +1,19 @@
+.display-fancy-font {
+    font-family: 'England', serif;
+}
+
+.display-1,
+.display-2 {
+    @extend .display-fancy-font;
+}
+
+.heading-row {
+    text-align: left;
+    padding: $grid-gutter-width;
+    background-color: $primary;
+    color: $yiq-text-light;
+
+    h1 {
+        margin: 0;
+    }
+}
