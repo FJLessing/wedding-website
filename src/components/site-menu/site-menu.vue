@@ -1,5 +1,5 @@
 <template>
-  <b-navbar id="site-menu" class="bg-white" type="light" shadow sticky>
+  <b-navbar id="site-menu" :class="['bg-white', ($route.meta.menuClass || '')]" type="light" shadow sticky>
     <b-navbar-brand href="#" v-b-toggle.side-nav>
       <b-icon-list />
     </b-navbar-brand>
@@ -19,6 +19,10 @@
       </template>
     </b-sidebar>
     <h1 class="title display-fancy-font" v-bind="$route">{{ $route.meta.title || $route.name }}</h1>
+    <b-navbar-brand href="#" v-b-toggle.side-nav>
+      <!-- TODO: add a better solution to center txt -->
+      <b-icon-x :style="{opacity: 0}" />
+    </b-navbar-brand>
   </b-navbar>
 
 </template>
@@ -65,6 +69,11 @@ export default {
       flex-grow: 1;
       color: $gray-600;
       margin: auto;
+      font-weight: 400;
+
+      @media screen and (min-width: map-get($grid-breakpoints, md )) {
+        font-size: 4.5rem;
+      }
     }
   }
 
