@@ -24,4 +24,4 @@ pnpm-debug.log*
 
 
 # project files
-/public/forms/rsvp.csv
+/public/**/*.csv
