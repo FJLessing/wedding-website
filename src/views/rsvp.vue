@@ -5,17 +5,19 @@
         <img class="img-fluid m-auto" src="/img/rsvp/header.png" />
       </b-col>
     </b-row>
-    <b-form @submit="submit" class="rsvp-form pb-5">
+    <b-form @submit.stop.prevent class="rsvp-form pb-5" :validated="formValid">
       <b-row>
           <b-col cols="8" md="4" offset="2" offset-md="4">
-              <b-form-group label="name" label-for="name">
-                <b-form-input id="name" v-model="form.name" required></b-form-input>
+              <b-form-group label="name" label-for="name" :state="nameNotEmpty">
+                <b-form-input id="name" v-model="form.name" required @blur="touchForm"></b-form-input>
+                <b-form-invalid-feedback :state="nameNotEmpty">please enter your name</b-form-invalid-feedback>
               </b-form-group>
           </b-col>
       </b-row>
       <b-form-radio-group
         class="my-5 rsvp-radio-group"
         v-model="form.attending"
+        :state="attendingSelected"
         required
       >
         <b-form-checkbox class="rsvp-checkbox" value="yes" v-model="form.attending">happily accept</b-form-checkbox>
@@ -26,20 +28,21 @@
           <label class="form-title" for="dietary-prefrences">dietary preferences:</label>
         </b-col>
       </b-row>
-      <b-form-radio-group v-if="form.attending === 'yes'" class="my-5 rsvp-radio-group" id="dietary-prefrences">
-        <b-form-checkbox class="rsvp-checkbox" v-model="form.dietary" value="vegan">lamb</b-form-checkbox>
+      <b-form-radio-group v-if="form.attending === 'yes'" class="my-5 rsvp-radio-group" id="dietary-prefrences" :state="dietarySelected">
+        <b-form-checkbox class="rsvp-checkbox" v-model="form.dietary" value="lamb">lamb</b-form-checkbox>
         <b-form-checkbox class="rsvp-checkbox" v-model="form.dietary" value="vegetarian">vegetarian</b-form-checkbox>
       </b-form-radio-group>
-      <b-row v-if="form.attending">
+      <b-row v-if="form.attending" class="mb-3">
         <b-col cols="8" md="4" offset="2" offset-md="4">
           <b-form-group label="notes">
-            <b-form-textarea id="notes" v-model="form.notes" rows="3"></b-form-textarea>
+            <b-form-input v-model="form.notes"></b-form-input>
+            <b-form-text>(optional) 'n boodskap vir die bruidspaar</b-form-text>
           </b-form-group>
         </b-col>
       </b-row>
       <b-row v-if="form.attending" class="my5">
         <b-col cols="8" offset="2">
-          <b-button type="submit" variant="primary" class="text-white">Submit</b-button>
+          <b-button variant="primary" class="text-white" @click="onSubmit">Submit</b-button>
         </b-col>
       </b-row>
     </b-form>
@@ -53,6 +56,7 @@ export default {
   name: 'rsvp',
   data () {
     return {
+      formNotTouched: true,
       form: {
         name: '',
         attending: null,
@@ -63,26 +67,65 @@ export default {
   },
 
   methods: {
-    submit () {
+    onSubmit (event) {
+      event.preventDefault();
+
       const data = {
-        name: this.name,
-        attending: this.attending,
-        dietary: this.dietary,
-        notes: this.notes
+        name: this.form.name,
+        attending: this.form.attending,
+        dietary: this.form.dietary,
+        notes: this.form.notes
       }
-      axios.post('/api/rsvp', data)
-        .then(response => {
-          console.log(response)
-        })
-        .catch(error => {
-          console.log(error)
-        })
+      console.log("Data = ", JSON.stringify(data));
+
+      try {
+        axios.post('https://trou-website.dev/forms/rsvp-submit.php', data)
+          .then(response => {
+            console.log(response)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      } catch (e) {
+        console.log(e)
+      }
+    },
+
+    touchForm () {
+      this.formNotTouched = false;
+    }
+  },
+
+  computed: {
+
+    nameNotEmpty () {
+      if (!this.formTouched) {
+        return true;
+      }
+      return this.form.name.length > 0;
+    },
+
+    attendingSelected () {
+      return this.form.attending !== null;
+    },
+
+    dietarySelected () {
+      return (!this.attendingSelected) && this.form.dietary !== '';
+    },
+
+    formValid () {
+      if (this.formNotTouched) return null;
+      return this.nameNotEmpty && this.attendingSelected;
     }
   },
 
   mounted () {
-    console.log(this.$route);
-    this.form.name = this.$route.query.name || '';
+    if (this.$route.query.name) {
+      this.form.name = this.$route.query.name || '';
+      this.form.attending = 'yes';
+      this.form.dietary = 'lamb';
+      this.form.notes = 'Inge is cool';
+    }
   }
 }
 </script>
