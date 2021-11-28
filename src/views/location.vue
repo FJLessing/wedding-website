@@ -52,9 +52,9 @@
         <img class="img-fluid w-100" src="/img/location/location-content.jpg" />
       </b-col>
       <b-col class="mb-3 h-100 spread-content remove-min-height-mobile" :md="7" :style="{ minHeight: mapHeight }">
-        <h2 class="mb-3">activities</h2>
-        <p class="mb-auto">For those who can’t sit still and kuier, the venue offers a variety activities such as:</p>
-        <ul class="unstyle-list">
+        <h2 class="mb-3 mt-auto">activities</h2>
+        <p class="my-2">For those who can’t sit still and kuier, the venue offers a variety activities such as:</p>
+        <ul class="unstyle-list mt-2 mb-auto">
           <li>Horse-back riding - <i>vir die cool kids</i></li>
           <li>4x4 trails  - <i>vir die wat pandas of ’n hilux het</i></li>
           <li>Biking trails - <i>bikes can be hired on site</i></li>
