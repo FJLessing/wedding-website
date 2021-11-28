@@ -12,7 +12,7 @@
           03PM
         </b-col>
         <b-col class="activity" cols="9">
-          cermony
+          ceremony
         </b-col>
       </b-row>
       <b-row>
@@ -42,17 +42,17 @@
       </b-row>
     </b-container-fluid>
     <b-row class="mb-extra">
-      <b-col class="mb-3 align-content-center" md="6">
+      <b-col class="align-content-center" md="6">
         <div>
-          <h2>dress code - semi formal</h2>
-          <p>To all the ladies: fair warning, heels will be more practical after the ceremony (tensy jy 4x4 hakke besit).</p>
+          <h2 class="text-lightgrey">dress code - semi formal</h2>
+          <p>To all the ladies: fair warning, heels will be more practical after the ceremony, <i>tensy jy 4x4 hakke besit.</i></p>
         </div>
         <div>
           <h2 class="text-primary">Your presence is our present</h2>
           <p>however, if you do wish to spoil us, a contribution to our wedding wishing well would be greatly appreciated.</p>
         </div>
       </b-col>
-      <b-col md="4" offset-md="2">
+      <b-col md="4" offset-md="2" class="mt-5">
         <img src="/img/wedding-day/dress-code.jpg" alt="Dress code flavour image." class="img-fluid">
       </b-col>
     </b-row>
@@ -82,11 +82,12 @@ export default {
 
       .activity {
         font-size: 1.25em;
+        text-transform: uppercase;
         text-align: left;
         border-bottom: 1px solid $gray-200;
-        text-transform: uppercase;
         font-weight: 300;
         vertical-align: bottom;
+        margin-bottom: .25em;
       }
     }
 
@@ -103,6 +104,10 @@ export default {
 
     .mb-extra {
       margin-bottom: 10rem;
+    }
+
+    .text-lightgrey {
+      color: $gray-700;
     }
   }
 </style>

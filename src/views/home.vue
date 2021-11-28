@@ -16,7 +16,7 @@
     </b-row>
     <b-row class="mb-3">
       <b-col>
-        <h2 class="display-5">25 - 27 march 22'</h2>
+        <h2 class="display-5">25 - 27 march '22</h2>
       </b-col>
     </b-row>
     <b-row class="mb-3">
@@ -26,14 +26,13 @@
     </b-row>
     <b-row class="mb-3 mt-5">
       <b-col>
-        <p class="mb-4">Itʼs finally happening!<br/>
-        Welcome to our wedding website, weʼre so glad youʼre here!
+        <p>Itʼs finally happening!</p>
+        <p>Welcome to our wedding website, weʼre so glad youʼre here!
         We lookforward to sharing this very special occasion with you.
-        This website is here to provideyou with all the details of ourspecial event.
-        We canʼt wait to see you there
-        </p>
-        <p class="hashtags">
-          <span>#vonlazer</span>
+        This website is here to provide you with all the details of our special event.</p>
+        <p>We canʼt wait to see you there!</p>
+        <p class="hashtags mt-4">
+          <span>#lovingvonlazer</span>
           <span>#LekkerLessing</span>
         </p>
       </b-col>
@@ -73,9 +72,10 @@ export default {
   .hashtags {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 
     > span {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       font-weight: bold;
       color: $gray-800;
 
