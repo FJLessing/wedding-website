@@ -1,52 +1,80 @@
 <template>
-  <b-container tag="main">
-    <b-row>
-      <b-col cols="8" md="4" offset="2" offset-md="4">
-        <img class="img-fluid m-auto" src="/img/rsvp/header.png" />
-      </b-col>
-    </b-row>
-    <b-form @submit.stop.prevent class="rsvp-form pb-5" :validated="formValid">
+  <main class="rsvp">
+    <b-container class="rsvp" tag="main">
       <b-row>
+        <b-col cols="8" md="4" offset="2" offset-md="4">
+          <img class="img-fluid m-auto" src="/img/rsvp/header.png" />
+        </b-col>
+      </b-row>
+    </b-container>
+
+    <b-container v-if="!submitted">
+      <b-form @submit.stop.prevent class="rsvp-form pb-5" :validated="formValid">
+        <b-row>
+            <b-col cols="8" md="4" offset="2" offset-md="4">
+                <b-form-group label="name" label-for="name" :state="nameNotEmpty">
+                  <b-form-input id="name" v-model="form.name" required @blur="touchForm"></b-form-input>
+                  <b-form-invalid-feedback :state="nameNotEmpty">please enter your name</b-form-invalid-feedback>
+                </b-form-group>
+            </b-col>
+        </b-row>
+        <b-form-radio-group
+          class="my-5 rsvp-radio-group"
+          v-model="form.attending"
+          :state="attendingSelected"
+          required
+        >
+          <b-form-checkbox class="rsvp-checkbox" value="yes" v-model="form.attending">happily accept</b-form-checkbox>
+          <b-form-checkbox class="rsvp-checkbox" value="no" v-model="form.attending">regretfully decline</b-form-checkbox>
+        </b-form-radio-group>
+        <b-row v-if="form.attending === 'yes'">
           <b-col cols="8" md="4" offset="2" offset-md="4">
-              <b-form-group label="name" label-for="name" :state="nameNotEmpty">
-                <b-form-input id="name" v-model="form.name" required @blur="touchForm"></b-form-input>
-                <b-form-invalid-feedback :state="nameNotEmpty">please enter your name</b-form-invalid-feedback>
-              </b-form-group>
+            <label class="form-title" for="dietary-prefrences">dietary preferences:</label>
           </b-col>
-      </b-row>
-      <b-form-radio-group
-        class="my-5 rsvp-radio-group"
-        v-model="form.attending"
-        :state="attendingSelected"
-        required
-      >
-        <b-form-checkbox class="rsvp-checkbox" value="yes" v-model="form.attending">happily accept</b-form-checkbox>
-        <b-form-checkbox class="rsvp-checkbox" value="no" v-model="form.attending">regretfully decline</b-form-checkbox>
-      </b-form-radio-group>
-      <b-row v-if="form.attending === 'yes'">
+        </b-row>
+        <b-form-radio-group v-if="form.attending === 'yes'" class="my-5 rsvp-radio-group" id="dietary-prefrences" :state="dietarySelected">
+          <b-form-checkbox class="rsvp-checkbox" v-model="form.dietary" value="lamb">lamb</b-form-checkbox>
+          <b-form-checkbox class="rsvp-checkbox" v-model="form.dietary" value="vegetarian">vegetarian</b-form-checkbox>
+        </b-form-radio-group>
+        <b-row v-if="form.attending" class="mb-3">
+          <b-col cols="8" md="4" offset="2" offset-md="4">
+            <b-form-group label="notes">
+              <b-form-input v-model="form.notes"></b-form-input>
+              <b-form-text>(optional) 'n boodskap vir die bruidspaar</b-form-text>
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <b-row v-if="errors.length > 0">
+          <b-col cols="8" md="4" offset="2" offset-md="4">
+            <b-form-group>
+                    <b-form-invalid-feedback v-for="(error, i) in errors" :state="false" v-bind:key="'error' + i">
+                      {{ error }}
+                    </b-form-invalid-feedback>
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <b-row v-if="form.attending" class="my5">
+          <b-col cols="8" offset="2">
+            <b-button variant="primary" class="text-white" @click="onSubmit">Submit</b-button>
+          </b-col>
+        </b-row>
+      </b-form>
+    </b-container>
+
+    <b-container v-else class="py-5">
+      <b-row>
         <b-col cols="8" md="4" offset="2" offset-md="4">
-          <label class="form-title" for="dietary-prefrences">dietary preferences:</label>
+          <p>Thank you for letting us know! </p>
+          <p>{{ (form.attending === "yes") ? 'We look forward to seeing you!' : 'We\'re sorry to hear you can\'t make it.' }}</p>
         </b-col>
       </b-row>
-      <b-form-radio-group v-if="form.attending === 'yes'" class="my-5 rsvp-radio-group" id="dietary-prefrences" :state="dietarySelected">
-        <b-form-checkbox class="rsvp-checkbox" v-model="form.dietary" value="lamb">lamb</b-form-checkbox>
-        <b-form-checkbox class="rsvp-checkbox" v-model="form.dietary" value="vegetarian">vegetarian</b-form-checkbox>
-      </b-form-radio-group>
-      <b-row v-if="form.attending" class="mb-3">
-        <b-col cols="8" md="4" offset="2" offset-md="4">
-          <b-form-group label="notes">
-            <b-form-input v-model="form.notes"></b-form-input>
-            <b-form-text>(optional) 'n boodskap vir die bruidspaar</b-form-text>
-          </b-form-group>
+      <b-row>
+        <b-col class="text-center">
+          <b-button variant="primary" class="text-white" @click="resetForm">RSVP for your partner</b-button>
         </b-col>
       </b-row>
-      <b-row v-if="form.attending" class="my5">
-        <b-col cols="8" offset="2">
-          <b-button variant="primary" class="text-white" @click="onSubmit">Submit</b-button>
-        </b-col>
-      </b-row>
-    </b-form>
-  </b-container>
+    </b-container>
+  </main>
 </template>
 
 <script>
@@ -62,7 +90,9 @@ export default {
         attending: null,
         dietary: 'lamb',
         notes: ''
-      }
+      },
+      submitted: false,
+      errors: []
     }
   },
 
@@ -76,19 +106,29 @@ export default {
         dietary: this.form.dietary,
         notes: this.form.notes
       }
-      console.log("Data = ", JSON.stringify(data));
 
-      try {
-        axios.post('https://trou-website.dev/forms/rsvp-submit.php', data)
-          .then(response => {
-            console.log(response)
-          })
-          .catch(error => {
-            console.log(error)
-          })
-      } catch (e) {
-        console.log(e)
-      }
+      // TODO: Update to live URL when ready
+      axios.post('http://192.168.2.200/forms/rsvp-submit.php', data)
+        .then(response => {
+          console.log(response)
+          this.submitted = true;
+          this.errors = [];
+        })
+        .catch(error => {
+          this.errors = (error.response && error.response.data) ? error.response.data.errors : [];
+          this.errors.push('We\'re sorry but something went wrong! Please try again later.');
+        })
+    },
+
+    resetForm () {
+      this.form = {
+        name: '',
+        attending: null,
+        dietary: 'lamb',
+        notes: ''
+      };
+      this.formNotTouched = true;
+      this.submitted = false;
     },
 
     touchForm () {
@@ -131,6 +171,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/styles/common/_bootstrap-variables.scss';
+
 .rsvp-form {
   input[type="text"],
   input[type="textarea"],
@@ -150,6 +192,17 @@ export default {
 .rsvp-radio-group {
   display: flex;
   justify-content: center;
+
+  @media screen and (max-width: map-get($grid-breakpoints, md)) {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    .rsvp-checkbox {
+      margin-bottom: 1rem;
+      margin-left: 3rem
+    }
+  }
 
   .rsvp-checkbox {
     align-content: center;

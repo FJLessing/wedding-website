@@ -53,9 +53,11 @@ export default {
 @import '@/styles/common/_bootstrap-variables.scss';
   .image-hero {
     display: flex;
+    max-width: 100%;
+    overflow: hidden;
 
     img {
-      width: 100%;
+      max-width: 33.33333333333333333333333333333333%;
       height: auto;
       object-fit: cover;
       object-position: center;
