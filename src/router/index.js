@@ -36,6 +36,14 @@ export const routes = [
     meta: {
       showInMenu: true
     }
+  },
+  {
+    path: '/gallery',
+    name: 'gallery',
+    component: () => import('../views/gallery.vue'),
+    meta: {
+      showInMenu: true
+    }
   }
 ]
 

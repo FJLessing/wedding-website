@@ -107,8 +107,7 @@ export default {
         notes: this.form.notes
       }
 
-      // TODO: Update to live URL when ready
-      axios.post('http://192.168.2.200/forms/rsvp-submit.php', data)
+      axios.post('fj-en-inge-trou.co.za/forms/rsvp-submit.php', data)
         .then(response => {
           console.log(response)
           this.submitted = true;
