@@ -28,7 +28,7 @@
       <b-col>
         <p>Itʼs finally happening!</p>
         <p>Welcome to our wedding website, weʼre so glad youʼre here!
-        We lookforward to sharing this very special occasion with you.
+        We look forward to sharing this very special occasion with you.
         This website is here to provide you with all the details of our special event.</p>
         <p>We canʼt wait to see you there!</p>
         <p class="hashtags mt-4">

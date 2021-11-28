@@ -15,7 +15,7 @@
         <p>The rooms are self-catering and included in the accommodation costs are breakfast for both Saturday and Sunday (this can be altered by the venue if needed).</p>
         <p>We will be having a braai for those who are joining us on Friday.</p>
         <br/>
-        <p>Rooms will be charged at R800 for the weekend with glamping tents, <i>(with real beds and a plug!)</i> at R400.</p>
+        <p>Rooms will be charged at R800 per person for the weekend with glamping tents, <i>(with real beds and a plug!)</i> at R400 per person.</p>
         <p>A delicious chef's breakfast can also be added to your booking at R120 for Saturday and Sunday.</p>
       </b-col>
       <b-col class="mb-3" :md="6">
