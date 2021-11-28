@@ -3,9 +3,3 @@
   Header always set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Access-Control-Allow-Origin"
   Header always set Access-Control-Allow-Methods "PUT, GET, POST, DELETE, OPTIONS"
 </IfModule>
-
-<IfModule mod_rewrite.c>
-  RewriteEngine Off
-</IfModule>
-
-php_flag  display_errors                  on
