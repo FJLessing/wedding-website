@@ -107,14 +107,14 @@ export default {
         notes: this.form.notes
       }
 
-      axios.post('fj-en-inge-trou.co.za/forms/rsvp-submit.php', data)
+      axios.post('/forms/rsvp-submit.php', data)
         .then(response => {
           console.log(response)
           this.submitted = true;
           this.errors = [];
         })
         .catch(error => {
-          this.errors = (error.response && error.response.data) ? error.response.data.errors : [];
+          this.errors = (error.response && error.response.data) ? JSON.parse(error.response.data) : [];
           this.errors.push('We\'re sorry but something went wrong! Please try again later.');
         })
     },
