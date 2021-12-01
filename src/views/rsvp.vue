@@ -172,22 +172,6 @@ export default {
 <style lang="scss">
 @import '@/styles/common/_bootstrap-variables.scss';
 
-.rsvp-form {
-  input[type="text"],
-  input[type="textarea"],
-  textarea {
-    border-top: 0;
-    border-left: 0;
-    border-right: 0;
-
-    &:focus {
-      outline: 0;
-      box-shadow: none;
-      border-bottom-width: 5px;
-    }
-  }
-}
-
 .rsvp-radio-group {
   display: flex;
   justify-content: center;
