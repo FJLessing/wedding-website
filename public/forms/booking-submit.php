@@ -19,7 +19,9 @@
     $email = $input['email'];
     $people = $input['people'];
     $message = $input['message'];
-    $room_type = $input['room_type'];
+    $room_type = $input['roomType'];
+    $breakfast_days = $input['breakfastDays'];
+
 
     $dirname = dirname(__FILE__);
     $filename = 'bookings.csv';
@@ -27,13 +29,13 @@
 
     if (!file_exists($filepath)) {
         $file = fopen($filepath, 'w');
-        fwrite($file, "Name,Email,People,Message,RoomType\n");
+        fwrite($file, "Name,Email,People,Message,RoomType,BreakfastDays\n");
         fclose($file);
     }
 
     $file = fopen($filepath, 'a');
     if ($file) {
-        fputcsv($file, [$name, $email, $people, $message, $room_type]);
+        fputcsv($file, [$name, $email, $people, $message, $room_type, $breakfast_days]);
         fclose($file);
     }
 
@@ -46,9 +48,10 @@
     $emailContent = "<h3>You have a new booking from $name for 26 March 2022</h3>";
     $emailContent .= "<p style=\"padding-left:2rem\">Name: $name<br/>";
     $emailContent .= "Email: $email<br/>";
-    $emailContent .= "People: $people<br/>";
-    $emailContent .= "Booking Type: $room_type<br/>";
-    $emailContent .= "Message: $message</p>";
+    if (!empty($people)) $emailContent .= "People: $people<br/>";
+    if (!empty($room_type)) $emailContent .= "Booking Type: $room_type<br/>";
+    if (is_array($breakfast_days)) $emailContent .= "Breakfast Days: " . implode(' ', $breakfast_days) . "<br/>";
+    if (!empty($message)) $emailContent .= "Message: $message</p>";
 
     $emailContent .= "<p>You should be able to reply to this email, or using this link: <a href=\"mailto:$email\">$email</a></p>";
 

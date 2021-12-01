@@ -1,38 +1,48 @@
 <template>
     <div class="booking-form mb-5">
-        <b-form class="row booking-form" @submit.stop.prevent>
+        <b-form class="row booking-form" @submit.stop.prevent :validated="formValidation">
           <b-col md="4" offset-md="4">
             <b-form-group label="name">
-                <b-form-input v-model="booking.name" type="text" required></b-form-input>
-            </b-form-group>
-            <b-form-group label="guests">
-                <b-form-input v-model="booking.people" type="number" required></b-form-input>
+                <b-form-input v-model="booking.name" type="text" required :state="nameValidation"></b-form-input>
             </b-form-group>
             <b-form-group label="email">
-                <b-form-input v-model="booking.email" type="email" required></b-form-input>
+                <b-form-input v-model="booking.email" type="email" required :state="emailValidation"></b-form-input>
+            </b-form-group>
+            <b-form-group label="guests">
+                <b-form-input v-model="booking.people" type="number"></b-form-input>
             </b-form-group>
           </b-col>
           <b-col class="booking-form-options" md="8" offset-md="2">
             <b-form-group label="room type">
-                <b-radio-group v-model="booking.roomType" required>
+                <b-radio-group v-model="booking.roomType">
                     <b-radio v-for="roomType in roomTypes" :value="roomType" :key="roomType">{{ roomType }}</b-radio>
                 </b-radio-group>
             </b-form-group>
             <b-form-group label="breakfast days">
-                <b-checkbox-group v-model="booking.breakfastDays" required>
+                <b-checkbox-group v-model="booking.breakfastDays">
                     <b-checkbox v-for="breakfastDay in breakfastDays" :value="breakfastDay" :key="breakfastDay">{{ breakfastDay }}</b-checkbox>
                 </b-checkbox-group>
             </b-form-group>
           </b-col>
           <b-col md="8" offset-md="2">
             <b-form-group label="message">
-                <b-form-textarea v-model="booking.message" rows="3" required></b-form-textarea>
+                <b-form-textarea v-model="booking.message" rows="3"></b-form-textarea>
             </b-form-group>
           </b-col>
         </b-form>
 
+        <b-row>
+          <b-alert variant="success" dismissible v-if="formSuccess">
+            <p>Thank you for your booking! Louvain will be in touch to sort out the details.</p>
+          </b-alert>
+
+          <b-alert variant="danger" dismissible v-if="errors.length">
+            <p v-for="error in errors" :key="error">{{ error }}</p>
+          </b-alert>
+        </b-row>
+
         <b-row class="mt-3 d-flex justify-content-center">
-            <b-button variant="primary" @click="submit">Submit</b-button>
+            <b-button variant="primary" @click="submit" :disabled="!formValidation">Submit</b-button>
         </b-row>
 
     </div>
@@ -49,9 +59,11 @@ export default {
         email: '',
         people: 1,
         message: '',
-        room_type: 'tent',
+        roomType: 'none',
         breakfastDays: []
       },
+      errors: [],
+      formSuccess: false,
       roomTypes: [
         'Glamping Tent (R400)',
         'Room (R800)'
@@ -62,27 +74,43 @@ export default {
       ]
     }
   },
+  computed: {
+    nameValidation () {
+      return (this.booking.name.length > 0);
+    },
+    emailValidation () {
+      return (this.booking.email.length > 0) && this.booking.email.includes('@');
+    },
+    formValidation () {
+      return this.nameValidation && this.emailValidation;
+    }
+  },
   methods: {
     submit () {
-      axios.post('/form/booking-submit.php', this.booking)
+      this.errors = [];
+      console.log("BOOKING:", this.booking);
+      axios.post('/forms/booking-submit.php', this.booking)
         .then(response => {
           this.booking = {
             name: '',
             email: '',
             people: '',
             message: '',
-            room_type: []
+            roomType: 'none',
+            breakfastDays: []
           };
-          this.$bvToast.toast(response.data.message, {
-            title: 'Success',
-            variant: 'success',
+          this.formSuccess = true;
+        })
+        .catch(error => {
+          console.error(error);
+          this.errors.push("Your submission has failed, please try again later.");
+          this.$bvToast.toast("There has been an error with your submission, please check the details and try again.", {
+            title: 'Failed',
+            variant: 'danger',
             solid: true,
             appendToast: true,
             autoHideDelay: 3000
           });
-        })
-        .catch(error => {
-          console.log(error);
         });
     }
   }
