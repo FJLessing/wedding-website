@@ -42,7 +42,8 @@
     $headers = array(
         "MIME-Version" => "1.0",
         "Content-type" => "text/html;charset=UTF-8",
-        "Reply-To" => $email,
+        "Reply-To"     => $email,
+        "From"         => "From: FJ & Inge Wedding Website",
     );
 
     $emailContent = "<h3>You have a new booking from $name for 26 March 2022</h3>";
@@ -56,9 +57,7 @@
     $emailContent .= "<p>You should be able to reply to this email, or using this link: <a href=\"mailto:$email\">$email</a></p>";
 
     mail(
-        // 'guestfarm@louvain.co.za',
-        // 'fjlessing@gmail.com',
-        'ingelizevz@gmail.com',
+        'guestfarm@louvain.co.za',
         "New Booking for Lessing Wedding: $name",
         $emailContent,
         $headers

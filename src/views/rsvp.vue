@@ -70,7 +70,8 @@
       </b-row>
       <b-row>
         <b-col class="text-center">
-          <b-button variant="primary" class="text-white" @click="resetForm">RSVP for your partner</b-button>
+          <b-button variant="outline-secondary" outline @click="resetForm">RSVP for your partner</b-button>
+          <router-link to="location#booking"  class="btn btn-primary text-white ml-4"><b>Book your room</b></router-link>
         </b-col>
       </b-row>
     </b-container>
@@ -114,8 +115,17 @@ export default {
           this.errors = [];
         })
         .catch(error => {
+          this.submitted = true;
+
           this.errors = (error.response && error.response.data) ? JSON.parse(error.response.data) : [];
           this.errors.push('We\'re sorry but something went wrong! Please try again later.');
+          this.$bvToast.toast("There has been an error with your submission, please check the details and try again.", {
+            title: 'Failed',
+            variant: 'danger',
+            solid: true,
+            appendToast: true,
+            autoHideDelay: 3000
+          });
         })
     },
 

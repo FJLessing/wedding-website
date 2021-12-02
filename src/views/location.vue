@@ -27,9 +27,9 @@
         ></GmapMap>
       </b-col>
     </b-row>
-    <b-row id="#booking" class="mb-4 heading-row">
+    <b-row class="mb-4 heading-row">
       <b-col>
-        <h1>book here</h1>
+        <h1 id="booking">book here</h1>
       </b-col>
     </b-row>
     <b-row class="mb-4">
@@ -69,7 +69,7 @@
           <div class="pricelist-row">
             <span>optional breakfast</span>
             <span>&nbsp;</span>
-            <span>R170 pp</span>
+            <span>R175 pp</span>
           </div>
         </div>
       </b-col>
@@ -85,8 +85,9 @@
     </b-row>
     <b-row class="mb-2">
       <b-col md=8 offset-md=2>
-        <p>you can click the book now button to book directly on the website or for any queries feel free to contact Michael Wood directly at <a href="mailto:guestfarm@louvain.co.za">guestfarm@louvain.co.za</a></p>
+        <p>click on the book now button for effortless booking.</p>
         <b-button variant="primary" class="mb-4" @click="() => this.showBooking = !this.showBooking">book now</b-button>
+        <p>For any further queries feel free to contact Michael Wood directly at <a href="mailto:guestfarm@louvain.co.za">guestfarm@louvain.co.za</a></p>
       </b-col>
     </b-row>
     <booking-form v-if="showBooking" />

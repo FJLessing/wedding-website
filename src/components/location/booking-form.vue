@@ -123,6 +123,30 @@ export default {
     margin-top: 2rem;
     margin-bottom: 2rem;
   }
+
+  .booking-form-options {
+    align-content: center;
+
+    .custom-control-input {
+      background-size: cover;
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    .custom-control-label {
+      margin-top: 1em;
+      line-height: 1.55rem;
+      padding-left: .5rem;
+
+      &::before,
+      &::after {
+        width: 1.25rem;
+        height: 1.25rem;
+        line-height: 1.25rem;
+        margin-right: 1.25rem;
+      }
+    }
+  }
 }
 .center-vertical {
   display: flex;
