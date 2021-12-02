@@ -20,7 +20,7 @@
     $people = $input['people'];
     $message = $input['message'];
     $room_type = $input['roomType'];
-    $breakfast_days = $input['breakfastDays'];
+    $breakfast_days = (isset($input['breakfastDays']) && is_array($input['breakfastDays'])) ? implode(' ', $input['breakfastDays']) : '';
 
 
     $dirname = dirname(__FILE__);
@@ -43,7 +43,7 @@
         "MIME-Version" => "1.0",
         "Content-type" => "text/html;charset=UTF-8",
         "Reply-To"     => $email,
-        "From"         => "From: FJ & Inge Wedding Website",
+        "From"         => "From: FJ & Inge Wedding Website <booking@fj-en-inge-trou.co.za>",
     );
 
     $emailContent = "<h3>You have a new booking from $name for 26 March 2022</h3>";
@@ -51,7 +51,7 @@
     $emailContent .= "Email: $email<br/>";
     if (!empty($people)) $emailContent .= "People: $people<br/>";
     if (!empty($room_type)) $emailContent .= "Booking Type: $room_type<br/>";
-    if (is_array($breakfast_days)) $emailContent .= "Breakfast Days: " . implode(' ', $breakfast_days) . "<br/>";
+    if (is_array($breakfast_days)) $emailContent .= "Breakfast Days: " . $breakfast_days . "<br/>";
     if (!empty($message)) $emailContent .= "Message: $message</p>";
 
     $emailContent .= "<p>You should be able to reply to this email, or using this link: <a href=\"mailto:$email\">$email</a></p>";
