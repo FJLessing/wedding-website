@@ -9,9 +9,9 @@
     $inputJSON = file_get_contents('php://input');
     $input = (!empty($inputJSON)) ? json_decode($inputJSON, TRUE) : $_POST;
 
-    if (!isset($input['name']) && !isset($input['attending'])) {
+    if (!isset($input['name']) || empty($input['name']) || !isset($input['attending']) || empty($input['attending'])) {
         http_response_code(400);
-        echo json_encode(array('error' => 'Missing name.'));
+        echo json_encode(array('error' => 'Please make sure to include your name and let us know if you are coming!'));
         exit(1);
     }
 

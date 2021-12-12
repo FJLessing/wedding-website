@@ -3,10 +3,10 @@
         <b-form class="row booking-form" @submit.stop.prevent :validated="formValidation">
           <b-col md="4" offset-md="4">
             <b-form-group label="name">
-                <b-form-input v-model="booking.name" type="text" required :state="nameValidation"></b-form-input>
+                <b-form-input v-model="booking.name" type="text" required :state="nameValidation" @blur="() => formNotTouched = false"></b-form-input>
             </b-form-group>
             <b-form-group label="email">
-                <b-form-input v-model="booking.email" type="email" required :state="emailValidation"></b-form-input>
+                <b-form-input v-model="booking.email" type="email" required :state="emailValidation" @blur="() => formNotTouched = false"></b-form-input>
             </b-form-group>
             <b-form-group label="guests">
                 <b-form-input v-model="booking.people" type="number"></b-form-input>
@@ -64,6 +64,7 @@ export default {
       },
       errors: [],
       formSuccess: false,
+      formNotTouched: true,
       roomTypes: [
         'Glamping Tent (R400)',
         'Room (R800)'
@@ -76,19 +77,38 @@ export default {
   },
   computed: {
     nameValidation () {
+      if (this.formNotTouched) {
+        return null;
+      }
       return (this.booking.name.length > 0);
     },
     emailValidation () {
+      if (this.formNotTouched) {
+        return null;
+      }
       return (this.booking.email.length > 0) && this.booking.email.includes('@');
     },
     formValidation () {
+      if (this.formNotTouched) {
+        return null;
+      }
       return this.nameValidation && this.emailValidation;
     }
   },
   methods: {
     submit () {
       this.errors = [];
-      console.log("BOOKING:", this.booking);
+
+      if (this.formNotTouched) {
+        this.errors.push('Please fill in the form.');
+        return;
+      }
+
+      if (!this.formValidation) {
+        this.errors.push('Please check the fields.');
+        return;
+      }
+
       axios.post('/forms/booking-submit.php', this.booking)
         .then(response => {
           this.booking = {
@@ -100,6 +120,7 @@ export default {
             breakfastDays: []
           };
           this.formSuccess = true;
+          this.errors = [];
         })
         .catch(error => {
           console.error(error);

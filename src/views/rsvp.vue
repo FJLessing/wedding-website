@@ -107,6 +107,11 @@ export default {
         dietary: this.form.dietary,
         notes: this.form.notes
       }
+      if (this.form.name === '' || this.form.attending === null) {
+        this.errors.push('please enter your name');
+        this.formNotTouched = false;
+        return;
+      }
 
       axios.post('/forms/rsvp-submit.php', data)
         .then(response => {
@@ -149,9 +154,9 @@ export default {
 
     nameNotEmpty () {
       if (!this.formTouched) {
-        return true;
+        return null;
       }
-      return this.form.name.length > 0;
+      return (this.form.name.length > 0) && (this.form.name === null || this.form.name.match(/^ *$/) !== null);
     },
 
     attendingSelected () {
