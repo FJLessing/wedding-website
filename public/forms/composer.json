@@ -1,0 +1,20 @@
+{
+    "name": "fjles/wedding-website",
+    "description": "Wedding website php endpoints",
+    "type": "project",
+    "require": {
+      "phpmailer/phpmailer": "^6.5",
+      "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Fjles\\WeddingWebsite\\": "/"
+        }
+    },
+    "authors": [
+        {
+            "name": "FJ",
+            "email": "me@fjlessing.co.za"
+        }
+    ]
+}

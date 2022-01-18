@@ -1,4 +1,9 @@
 <?php 
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\Exception;
+
+    require_once "vendor/autoload.php";
+
     header('Content-Type: application/json');
 
     if(isset($_REQUEST['REQUEST_METHOD']) && $_REQUEST['REQUEST_METHOD'] === 'OPTIONS'){
@@ -20,7 +25,9 @@
     $people = $input['people'];
     $message = $input['message'];
     $room_type = $input['roomType'];
-    $breakfast_days = (isset($input['breakfastDays']) && is_array($input['breakfastDays'])) ? implode(' ', $input['breakfastDays']) : '';
+    if (isset($input['breakfastDays'])) {
+        $breakfast_days = (is_array($input['breakfastDays'])) ? implode(' ', $input['breakfastDays']) : $input['breakfastDays'];
+    }
 
 
     $dirname = dirname(__FILE__);
@@ -51,14 +58,44 @@
     $emailContent .= "Email: $email<br/>";
     if (!empty($people)) $emailContent .= "People: $people<br/>";
     if (!empty($room_type)) $emailContent .= "Booking Type: $room_type<br/>";
-    if (is_array($breakfast_days)) $emailContent .= "Breakfast Days: " . $breakfast_days . "<br/>";
+    if (!empty($breakfast_days)) $emailContent .= "Breakfast Days: " . $breakfast_days . "<br/>";
     if (!empty($message)) $emailContent .= "Message: $message</p>";
 
     $emailContent .= "<p>You should be able to reply to this email, or using this link: <a href=\"mailto:$email\">$email</a></p>";
 
-    mail(
-        'guestfarm@louvain.co.za',
-        "New Booking for Lessing Wedding: $name",
-        $emailContent,
-        $headers
-    );
+    $mail = new PHPMailer(true);
+
+    try {
+        //Set PHPMailer to use SMTP.
+        $mail->isSMTP();
+        //Set SMTP host name
+        $mail->Host = "smtp.gmail.com";
+        //Set this to true if SMTP host requires authentication to send email
+        $mail->SMTPAuth = true;
+        //Provide username and password
+        $mail->Username = "fjlessing@gmail.com";
+        $mail->Password = "wpcchjfpednpqwas";
+        //If SMTP requires TLS encryption then set it
+        $mail->SMTPSecure = "tls";
+        //Set TCP port to connect to
+        $mail->Port = 587;
+
+
+        // Send mail
+        $mail->From = "fjlessing@gmail.com";
+        $mail->FromName = "FJ & Inge Wedding Website";
+
+        $mail->addAddress('guestfarm@louvain.co.za', 'Michael Wood');
+        $mail->addBCC('me@fjlessing.co.za', 'FJ Lessing');
+        $mail->addBCC('ingelizevz@gmail.com', 'Hotty Mc Hotpants');
+
+        $mail->addReplyTo($email, $name);
+        $mail->isHTML(true);
+        $mail->Subject = "New Booking for Lessing Wedding: $name";
+        $mail->Body = $emailContent;
+
+        $mail->send();
+    } catch (Exception $e) {
+        echo json_encode(array('error' => $e->getMessage()));
+        exit(1);
+    }

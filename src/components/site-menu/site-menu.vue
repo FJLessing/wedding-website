@@ -1,5 +1,11 @@
 <template>
-  <b-navbar id="site-menu" :class="['bg-white', ($route.meta.menuClass || '')]" type="light" shadow sticky>
+  <b-navbar
+      id="site-menu"
+      :class="['bg-white', ($route.meta.menuClass || '')]"
+      type="light"
+      shadow
+      sticky
+    >
     <b-navbar-brand href="#" v-b-toggle.side-nav>
       <b-icon-list />
     </b-navbar-brand>
@@ -14,7 +20,7 @@
             v-for="link in links"
             v-bind:key="link.path"
             :to="link.path"
-          >{{link.name}}</router-link>
+          >{{link.meta.menuName || link.name}}</router-link>
         </nav>
       </template>
     </b-sidebar>

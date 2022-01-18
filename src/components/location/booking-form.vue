@@ -1,5 +1,6 @@
 <template>
     <div class="booking-form mb-5">
+      <div v-if="!formSuccess" class="booking-form-form">
         <b-form class="row booking-form" @submit.stop.prevent :validated="formValidation">
           <b-col md="4" offset-md="4">
             <b-form-group label="name">
@@ -29,21 +30,37 @@
                 <b-form-textarea v-model="booking.message" rows="3"></b-form-textarea>
             </b-form-group>
           </b-col>
-        </b-form>
-
-        <b-row>
-          <b-alert variant="success" dismissible v-if="formSuccess">
-            <p>Thank you for your booking! Louvain will be in touch to sort out the details.</p>
-          </b-alert>
 
           <b-alert variant="danger" dismissible v-if="errors.length">
             <p v-for="error in errors" :key="error">{{ error }}</p>
           </b-alert>
-        </b-row>
-
+        </b-form>
         <b-row class="mt-3 d-flex justify-content-center">
             <b-button variant="primary" @click="submit" :disabled="!formValidation">Submit</b-button>
         </b-row>
+        <b-row>
+          <b-alert variant="success" dismissible v-if="formSuccess">
+            <p>Thank you for your booking! Louvain will be in touch to sort out the details.</p>
+          </b-alert>
+        </b-row>
+      </div>
+
+      <b-container v-else-if="loading" class="py-5">
+        <b-row>
+          <b-col class="d-flex justify-content-center">
+            <b-spinner type="grow" variant="primary" label="Loading..."></b-spinner>
+          </b-col>
+        </b-row>
+      </b-container>
+
+      <b-container v-else class="py-5">
+        <b-row>
+          <b-col cols="8" md="4" offset="2" offset-md="4">
+            <p>Thank you for letting us know! </p>
+            <p>The venue will be in touch with your invoice or any other details they require.</p>
+          </b-col>
+        </b-row>
+      </b-container>
 
     </div>
 </template>
@@ -109,6 +126,8 @@ export default {
         return;
       }
 
+      this.loading = true;
+
       axios.post('/forms/booking-submit.php', this.booking)
         .then(response => {
           this.booking = {
@@ -132,6 +151,10 @@ export default {
             appendToast: true,
             autoHideDelay: 3000
           });
+          this.formSuccess = false;
+        })
+        .always(() => {
+          this.loading = false;
         });
     }
   }

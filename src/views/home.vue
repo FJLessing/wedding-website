@@ -37,6 +37,11 @@
         </p>
       </b-col>
     </b-row>
+    <b-row class="mb-5">
+      <b-col class="d-flex justify-content-center text-white">
+        <b-button class="text-white" variant="primary" v-b-toggle.side-nav>Explore our Website</b-button>
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 

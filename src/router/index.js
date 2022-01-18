@@ -18,7 +18,8 @@ export const routes = [
     name: 'location',
     component: () => import('../views/location.vue'),
     meta: {
-      showInMenu: true
+      showInMenu: true,
+      menuName: 'location & accommodation'
     }
   },
   {

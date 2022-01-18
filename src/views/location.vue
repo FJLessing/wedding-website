@@ -59,12 +59,12 @@
           <div class="pricelist-row">
             <span>standard accommodation</span>
             <span>&nbsp;</span>
-            <span>R800 pp/per night</span>
+            <span>R800 pp</span>
           </div>
           <div class="pricelist-row">
             <span>tent accommodation</span>
             <span>&nbsp;</span>
-            <span>R400 pp/per night</span>
+            <span>R400 pp</span>
           </div>
           <div class="pricelist-row">
             <span>optional breakfast</span>
@@ -76,6 +76,7 @@
     </b-row>
     <b-row class="pricelist-row mb-5">
       <b-col md=6 offset-md=2>
+        <div class="extra-info">* prices are for the whole weekend</div>
         <div class="extra-info">* breakfasts will be served at 8am in Die Ou Grootboom Venue conveniently located near the accommodation</div>
         <div class="extra-info">* standard accommodation is limited to 60 persons</div>
       </b-col>
@@ -85,12 +86,10 @@
     </b-row>
     <b-row class="mb-2">
       <b-col md=8 offset-md=2>
-        <p>click on the book now button for effortless booking.</p>
-        <b-button variant="primary" class="mb-4" @click="() => this.showBooking = !this.showBooking">book now</b-button>
-        <p>For any further queries feel free to contact Michael Wood directly at <a href="mailto:guestfarm@louvain.co.za">guestfarm@louvain.co.za</a></p>
+        <p>Use this form for effortless booking.</p>
       </b-col>
     </b-row>
-    <booking-form v-if="showBooking" />
+    <booking-form />
     <b-row class="mb-4">
       <b-col class="mb-3" :md="5">
         <img class="img-fluid w-100" src="/img/location/location-content.jpg" />
@@ -105,6 +104,11 @@
           <li>Hiking trails - <i>vir die wat wil klim en klouter</i></li>
           <li>We can even arrange a cricket game on their gorgeous green!</li>
         </ul>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col>
+        <p>For any further queries feel free to contact Michael Wood directly at <a href="mailto:guestfarm@louvain.co.za">guestfarm@louvain.co.za</a></p>
       </b-col>
     </b-row>
   </b-container>
