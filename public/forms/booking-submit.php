@@ -50,7 +50,8 @@
         "MIME-Version" => "1.0",
         "Content-type" => "text/html;charset=UTF-8",
         "Reply-To"     => $email,
-        "From"         => "From: FJ & Inge Wedding Website <booking@fj-en-inge-trou.co.za>",
+        "From"         => "From: FJ & Inge Wedding Website <website@fj-en-inge-trou.co.za>",
+        "Bcc"          => "ingelizevz@gmail.com,fjlessing@gmail.com"
     );
 
     $emailContent = "<h3>You have a new booking from $name for 26 March 2022</h3>";
@@ -63,39 +64,66 @@
 
     $emailContent .= "<p>You should be able to reply to this email, or using this link: <a href=\"mailto:$email\">$email</a></p>";
 
-    $mail = new PHPMailer(true);
+    $logfilepath = $dirname . '/maillog.txt';
 
     try {
-        //Set PHPMailer to use SMTP.
-        $mail->isSMTP();
-        //Set SMTP host name
-        $mail->Host = "smtp.gmail.com";
-        //Set this to true if SMTP host requires authentication to send email
-        $mail->SMTPAuth = true;
-        //Provide username and password
-        $mail->Username = "fjlessing@gmail.com";
-        $mail->Password = "wpcchjfpednpqwas";
-        //If SMTP requires TLS encryption then set it
-        $mail->SMTPSecure = "tls";
-        //Set TCP port to connect to
-        $mail->Port = 587;
-
-
-        // Send mail
-        $mail->From = "fjlessing@gmail.com";
-        $mail->FromName = "FJ & Inge Wedding Website";
-
-        $mail->addAddress('guestfarm@louvain.co.za', 'Michael Wood');
-        $mail->addBCC('me@fjlessing.co.za', 'FJ Lessing');
-        $mail->addBCC('ingelizevz@gmail.com', 'Hotty Mc Hotpants');
-
-        $mail->addReplyTo($email, $name);
-        $mail->isHTML(true);
-        $mail->Subject = "New Booking for Lessing Wedding: $name";
-        $mail->Body = $emailContent;
-
-        $mail->send();
+        mail("guestfarm@louvain.co.za", "FJ & Inge Wedding Website - New Booking", $emailContent, $headers);
     } catch (Exception $e) {
-        echo json_encode(array('error' => $e->getMessage()));
+        http_response_code(500);
+        echo json_encode(array('error' => 'Error sending email.'));
         exit(1);
     }
+
+//    $mail = new PHPMailer(true);
+
+//    try {
+//        $mail->SMTPDebug = 3;                                 // Enable verbose debug output
+////        $mail->isSMTP();
+////        $mail->Host = "mail.fj-en-inge-trou.co.za";
+////        $mail->SMTPAuth = true;
+////        $mail->Username = "website@fj-en-inge-trou.co.za";
+////        $mail->Password = "GJX_euj2jvu0guh9wkg";
+////        $mail->Port = 465;
+//        ob_start();
+//
+//        // Gmail Settings
+//        $mail->isSMTP();
+//        $mail->SMTPDebug = 3;
+//        $mail->Debugoutput = 'html';
+//        $mail->Host = "smtp.gmail.com";
+//        $mail->SMTPAuth = true;
+//        $mail->Username = "fjlessing@gmail.com";
+//        $mail->Password = "wpcchjfpednpqwas";
+//        $mail->SMTPSecure = "tls";
+//        $mail->Port = 587;
+//        $mail->From = "fjlessing@gmail.com";
+//        $mail->FromName = "FJ & Inge Wedding Website";
+//
+//        // Send mail
+//        $mail->From = "website@fj-en-inge-trou.co.za";
+//        $mail->FromName = "FJ & Inge Wedding Website";
+//
+//        $mail->addAddress('me@fjlessing.co.za', 'FJ & Inge Wedding Website');
+////        $mail->addAddress('guestfarm@louvain.co.za', 'Michael Wood');
+//        $mail->addBCC('ingelizevz@gmail.com', 'Hotty Mc Hotpants');
+//
+//        $mail->addReplyTo($email, $name);
+//        $mail->isHTML(true);
+//        $mail->Subject = "New Booking for Lessing Wedding: $name";
+//        $mail->Body = $emailContent;
+//
+//        $mail->send();
+//        $maillog = ob_get_contents();
+//        ob_end_clean();
+//
+//        $logfile = fopen($logfilepath, 'a');
+//        if ($logfile) {
+//            fputs($logfile, $maillog);
+//            fclose($logfile);
+//        } else {
+//            throw new Exception('Could not open log file.');
+//        }
+//    } catch (Exception $e) {
+//        echo json_encode(array('error' => $e->getMessage()));
+//        exit(1);
+//    }

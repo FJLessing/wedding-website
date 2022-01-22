@@ -20,7 +20,7 @@
             v-for="link in links"
             v-bind:key="link.path"
             :to="link.path"
-          >{{link.meta.menuName || link.name}}</router-link>
+          >{{ (link.meta && link.meta.menuName) ? link.meta.menuName : link.name}}</router-link>
         </nav>
       </template>
     </b-sidebar>
