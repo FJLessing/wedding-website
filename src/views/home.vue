@@ -8,9 +8,9 @@
     <b-row class="mb-4">
       <b-col>
         <div class="image-hero">
-          <img src="/img/homepage/hero-1.jpg" alt="Engagement photo 1" />
-          <img src="/img/homepage/hero-2.jpg" alt="Engagement photo 2" />
-          <img src="/img/homepage/hero-3.jpg" alt="Engagement photo 3" />
+          <img src="/img/homepage/hero-1.webp" alt="Engagement photo 1" />
+          <img src="/img/homepage/hero-2.webp" alt="Engagement photo 2" />
+          <img src="/img/homepage/hero-3.webp" alt="Engagement photo 3" />
         </div>
       </b-col>
     </b-row>

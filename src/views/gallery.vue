@@ -49,7 +49,7 @@ export default {
     for (let i = 1; i <= 47; i++) {
       const paddedI = String(i).padStart(2, '0');
       this.images.push({
-        src: `/img/gallery/gallery-${paddedI}.jpg`,
+        src: `/img/gallery/gallery-${paddedI}.webp`,
         alt: `Image ${i}`
       });
     }

@@ -3,7 +3,7 @@
     <b-container class="rsvp" tag="main">
       <b-row>
         <b-col cols="8" md="4" offset="2" offset-md="4">
-          <img class="img-fluid m-auto" src="/img/rsvp/header.png" />
+          <img class="img-fluid m-auto" src="/img/rsvp/header.webp" />
         </b-col>
       </b-row>
     </b-container>

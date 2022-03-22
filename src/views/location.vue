@@ -3,7 +3,7 @@
     <b-row>
       <b-col>
         <h1 class="page-title">Louvain Guest Farm</h1>
-        <img class="img-fluid w-100" src="/img/location/location-hero-1.jpg" />
+        <img class="img-fluid w-100" src="/img/location/location-hero-1.webp" />
       </b-col>
     </b-row>
     <b-row class="mt-5 mb-5">
@@ -92,7 +92,7 @@
     <booking-form />
     <b-row class="mb-4">
       <b-col class="mb-3" :md="5">
-        <img class="img-fluid w-100" src="/img/location/location-content.jpg" />
+        <img class="img-fluid w-100" src="/img/location/location-content.webp" />
       </b-col>
       <b-col class="mb-3 h-100 spread-content remove-min-height-mobile" :md="7" :style="{ minHeight: mapHeight }">
         <h2 class="mb-3 mt-3 mt-md-auto">activities</h2>
