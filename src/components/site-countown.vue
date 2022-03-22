@@ -36,7 +36,7 @@ export default {
   props: {
     targetDate: {
       type: String,
-      default: '2022-03-26 14:30:00'
+      default: '2022-03-26 16:00:00'
     }
   },
 
